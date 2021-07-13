@@ -2,6 +2,9 @@
 giftcard-backend/
 giftcard-frontend/
 
+# macOS
+.DS_STORE
+
 # IDE / editor settings
 .vscode
 
