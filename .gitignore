@@ -4,3 +4,6 @@ giftcard-frontend/
 
 # IDE / editor settings
 .vscode
+
+# .env files
+.env.*.prod

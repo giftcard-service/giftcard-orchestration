@@ -1,0 +1,66 @@
+version: "3"
+
+services:
+  db:
+    container_name: giftcard_db_prod
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./settings/.env.db.prod
+    networks:
+      - giftcard-net
+    ports:
+      - "5432:5432"
+
+  backend:
+    container_name: giftcard_backend_prod
+    build:
+      context: ./giftcard-backend
+      target: development
+    env_file:
+      - ./settings/.env.backend.prod
+    command: npm run start:debug
+    networks:
+      - giftcard-net
+    ports:
+      - "8000:3000"
+      - "9229:9229"
+    volumes:
+      - ./giftcard-backend/:/backend/
+    depends_on:
+      - db
+
+  frontend:
+    container_name: giftcard_frontend_prod
+    build:
+      context: ./giftcard-frontend
+    volumes:
+      - ./giftcard-frontend/:/frontend
+      - ./giftcard-frontend/node_modules/:/frontend/node_modules
+    environment:
+      - CI=true
+      - CHOKIDAR_USEPOLLING=true
+    tty: true
+    command: ["npm", "start"]
+    networks:
+      - giftcard-net
+    ports:
+      - "80:3000"
+
+  pgadmin:
+    container_name: giftcard_pgadmin_prod
+    image: dpage/pgadmin4
+    env_file:
+      - ./settings/.env.pgadmin.prod
+    networks:
+      - giftcard-net
+    ports:
+      - "5050:80"
+
+networks:
+  giftcard-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
