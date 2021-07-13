@@ -1,0 +1,6 @@
+# sub-project directories
+giftcard-backend/
+giftcard-frontend/
+
+# IDE / editor settings
+.vscode

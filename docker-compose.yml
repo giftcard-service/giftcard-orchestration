@@ -1,0 +1,74 @@
+version: "3"
+
+services:
+  db:
+    container_name: giftcard_db_dev
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: "admin_giftcard"
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB: "db_giftcard"
+    networks:
+      - giftcard-net
+    ports:
+      - "5432:5432"
+
+  backend:
+    container_name: giftcard_backend_dev
+    build:
+      context: ./giftcard-backend
+      target: development
+    environment:
+      SQL_TYPE: "postgres"
+      SQL_HOST: "db"
+      SQL_PORT: "5432"
+      SQL_USER: "admin_giftcard"
+      SQL_PASSWORD: "1234"
+      SQL_DATABASE: "db_giftcard"
+    command: npm run start:debug
+    networks:
+      - giftcard-net
+    ports:
+      - "8000:3000"
+      - "9229:9229"
+    volumes:
+      - ./giftcard-backend/:/backend/
+    depends_on:
+      - db
+
+  frontend:
+    container_name: giftcard_frontend_dev
+    build:
+      context: ./giftcard-frontend
+    volumes:
+      - ./giftcard-frontend/:/frontend
+      - ./giftcard-frontend/node_modules/:/frontend/node_modules
+    environment:
+      - CI=true
+      - CHOKIDAR_USEPOLLING=true
+    tty: true
+    command: ["npm", "start"]
+    networks:
+      - giftcard-net
+    ports:
+      - "80:3000"
+
+  pgadmin:
+    container_name: giftcard_pgadmin_dev
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@server.com"
+      PGADMIN_DEFAULT_PASSWORD: "1234"
+    networks:
+      - giftcard-net
+    ports:
+      - "5050:80"
+
+networks:
+  giftcard-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
