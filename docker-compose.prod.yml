@@ -20,7 +20,7 @@ services:
       target: development
     env_file:
       - ./settings/.env.backend.prod
-    command: npm run start:debug
+    command: yarn run start:debug
     networks:
       - giftcard-net
     ports:
@@ -42,7 +42,7 @@ services:
       - CI=true
       - CHOKIDAR_USEPOLLING=true
     tty: true
-    command: ["npm", "start"]
+    command: ["yarn", "run", "start"]
     networks:
       - giftcard-net
     ports:
