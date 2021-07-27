@@ -1,6 +1,19 @@
 version: "3"
 
 services:
+  # nginx 컨테이너(서버)
+  nginx:
+    build: ./giftcard-nginx
+    networks:
+      - giftcard-net
+    ports:
+      - 80:8080
+    volumes:
+      - build_folder:/var/www/frontend
+    depends_on:
+      - backend
+      - frontend
+
   db:
     container_name: giftcard_db_prod
     image: postgres:12.0-alpine
@@ -24,8 +37,10 @@ services:
     networks:
       - giftcard-net
     ports:
-      - "8000:3000"
+      - "8000:8000"
       - "9229:9229"
+    expose:
+      - 8000
     volumes:
       - ./giftcard-backend/:/backend/
     depends_on:
@@ -38,17 +53,15 @@ services:
     volumes:
       - ./giftcard-frontend/:/frontend
       - ./giftcard-frontend/node_modules/:/frontend/node_modules
+      - build_folder:/frontend/build
     env_file:
       - ./settings/.env.frontend.prod
     environment:
       - CI=true
-      - CHOKIDAR_USEPOLLING=true
     tty: true
-    command: ["yarn", "run", "start"]
+    command: ["yarn", "run", "build"]
     networks:
       - giftcard-net
-    ports:
-      - "80:3000"
 
   pgadmin:
     container_name: giftcard_pgadmin_prod
@@ -66,3 +79,4 @@ networks:
 
 volumes:
   postgres_data:
+  build_folder:
