@@ -12,7 +12,7 @@ services:
       - build_folder:/var/www/frontend
     depends_on:
       - backend
-      - frontend
+      # - frontend
 
   db:
     container_name: giftcard_db_prod
@@ -46,22 +46,22 @@ services:
     depends_on:
       - db
 
-  frontend:
-    container_name: giftcard_frontend_prod
-    build:
-      context: ./giftcard-frontend
-    volumes:
-      - ./giftcard-frontend/:/frontend
-      - ./giftcard-frontend/node_modules/:/frontend/node_modules
-      - build_folder:/frontend/build
-    env_file:
-      - ./settings/.env.frontend.prod
-    environment:
-      - CI=true
-    tty: true
-    command: ["yarn", "run", "build"]
-    networks:
-      - giftcard-net
+  # frontend:
+  #   container_name: giftcard_frontend_prod
+  #   build:
+  #     context: ./giftcard-frontend
+  #   volumes:
+  #     - ./giftcard-frontend/:/frontend
+  #     - ./giftcard-frontend/node_modules/:/frontend/node_modules
+  #     - build_folder:/frontend/build
+  #   env_file:
+  #     - ./settings/.env.frontend.prod
+  #   environment:
+  #     - CI=true
+  #   tty: true
+  #   command: ["yarn", "run", "build"]
+  #   networks:
+  #     - giftcard-net
 
   pgadmin:
     container_name: giftcard_pgadmin_prod
@@ -79,4 +79,4 @@ networks:
 
 volumes:
   postgres_data:
-  build_folder:
+  # build_folder:

@@ -38,22 +38,22 @@ services:
     depends_on:
       - db
 
-  frontend:
-    container_name: giftcard_frontend_dev
-    build:
-      context: ./giftcard-frontend
-    volumes:
-      - ./giftcard-frontend/:/frontend
-      - ./giftcard-frontend/node_modules/:/frontend/node_modules
-    environment:
-      - CI=true
-      - CHOKIDAR_USEPOLLING=true
-    tty: true
-    command: ["npm", "start"]
-    networks:
-      - giftcard-net
-    ports:
-      - "80:3000"
+  # frontend:
+  #   container_name: giftcard_frontend_dev
+  #   build:
+  #     context: ./giftcard-frontend
+  #   volumes:
+  #     - ./giftcard-frontend/:/frontend
+  #     - ./giftcard-frontend/node_modules/:/frontend/node_modules
+  #   environment:
+  #     - CI=true
+  #     - CHOKIDAR_USEPOLLING=true
+  #   tty: true
+  #   command: ["npm", "start"]
+  #   networks:
+  #     - giftcard-net
+  #   ports:
+  #     - "80:3000"
 
   pgadmin:
     container_name: giftcard_pgadmin_dev
