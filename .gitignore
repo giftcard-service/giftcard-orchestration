@@ -1,6 +1,7 @@
 # sub-project directories
 giftcard-backend/
 giftcard-frontend/
+giftcard-frontend-v2/
 
 # macOS
 .DS_STORE

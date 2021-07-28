@@ -6,21 +6,29 @@
 
 1. `giftcard-backend` repository를 프로젝트 최상위 경로에 클론한다.
 
-2. `giftcard-frontend` repository를 프로젝트 최상위 경로에 클론한다.
+2. `giftcard-frontend-v2` repository를 프로젝트 최상위 경로에 클론한다.
 
 3. `giftcard-backend`에서 `yarn`을 입력하여 패키지를 설치한다.
 
-4. `giftcard-frontend`에서 `yarn`을 입력하여 패키지를 설치한다.
+4. `giftcard-frontend-v2`에서 `yarn`을 입력하여 패키지를 설치한다.
 
-5. 배포 모드로 실행하기 위해서 프로젝트 최상위 경로의 `settings` 폴더의 .env 파일을 .template 이름만 지운 것으로 복사하여 생성한다. (e.g. .env.backed.prod)
+5. `giftcard-frontend-v2/src/constants` 경로에서 `API_URL`, `CRYPTO_SECRET_KEY`의 값을 원하는 값으로 바꾼다.
 
-6. 주석을 확인하며 각 .env 파일의 환경변수 내용이 key에 맞도록 value를 채운다.
+6. 배포 모드로 실행하기 위해서 프로젝트 최상위 경로의 `settings` 폴더의 .env 파일을 .template 이름만 지운 것으로 복사하여 생성한다. (e.g. .env.backed.prod)
 
-## 컨테이너 실행
+7. 주석을 확인하며 각 .env 파일의 환경변수 내용이 key에 맞도록 value를 채운다.
+
+## 백엔드 및 NGINX 컨테이너 실행
 
 - `docker-compose up`과 `docker-compose down` 명령어로 컨테이너를 실행하고 중지한다.
 
 - `docker-compose -f docker-compose.prod.yml up`과 `docker-compose -f docker-compose.prod.yml down` 명령어로 배포 모드로 실행하고 중지한다.
+
+## 프론트엔드 Next.js 서버 실행
+
+- `yarn dev`를 이용해 서버를 시작한다.
+
+- `yarn build`로 빌드 파일을 만들고 `yarn start`를 이용해 배포 버전으로 실행한다.
 
 ## 관리자 계정 생성
 
